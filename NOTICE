@@ -1,0 +1,7 @@
+This package includes a modified version of dlmalloc derived from the wasi-libc
+project. The original dlmalloc is licensed under CC0-1.0, and the modifications
+by the wasi-libc project are licensed under the Apache License 2.0 with LLVM
+Exceptions, Apache License 2.0, and MIT License.
+
+The original dlmalloc is available at: ftp://gee.cs.oswego.edu/pub/misc/malloc.c
+The wasi-libc project is available at: https://github.com/WebAssembly/wasi-libc

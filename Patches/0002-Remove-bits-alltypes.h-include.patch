@@ -1,0 +1,29 @@
+From c09abe907526966f4e679559d229d556e4e71dbe Mon Sep 17 00:00:00 2001
+From: Yuta Saito <kateinoigakukun@gmail.com>
+Date: Tue, 15 Oct 2024 08:38:39 +0900
+Subject: [PATCH] Remove `<bits/alltypes.h>` include
+
+To allow building dlmalloc outside of the wasi-libc source tree, remove
+the include of `<bits/alltypes.h>` and replace it with `<stddef.h>`.
+---
+ Sources/dlmalloc/wasm/internal-headers/malloc.h | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/Sources/dlmalloc/wasm/internal-headers/malloc.h b/Sources/dlmalloc/wasm/internal-headers/malloc.h
+index bc17b10..79d3a2e 100644
+--- a/Sources/dlmalloc/wasm/internal-headers/malloc.h
++++ b/Sources/dlmalloc/wasm/internal-headers/malloc.h
+@@ -9,9 +9,7 @@
+ extern "C" {
+ #endif
+ 
+-#define __NEED_size_t
+-
+-#include <bits/alltypes.h>
++#include <stddef.h>
+ 
+ #ifdef __wasilibc_unmodified_upstream /* Use alternate WASI libc headers */
+ void *malloc (size_t);
+-- 
+2.39.3 (Apple Git-146)
+

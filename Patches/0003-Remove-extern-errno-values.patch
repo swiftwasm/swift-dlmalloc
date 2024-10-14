@@ -1,0 +1,32 @@
+From a3eec3642bbd31610ad52c35b3725e4e832ede10 Mon Sep 17 00:00:00 2001
+From: Yuta Saito <kateinoigakukun@gmail.com>
+Date: Tue, 15 Oct 2024 08:59:13 +0900
+Subject: [PATCH] Remove extern errno values
+
+They increase the size of the data segment, and are not needed since we
+have errno.h in this build setup.
+---
+ Sources/dlmalloc/wasm/dlmalloc.c | 7 -------
+ 1 file changed, 7 deletions(-)
+
+diff --git a/Sources/dlmalloc/wasm/dlmalloc.c b/Sources/dlmalloc/wasm/dlmalloc.c
+index 331536b..c443d67 100644
+--- a/Sources/dlmalloc/wasm/dlmalloc.c
++++ b/Sources/dlmalloc/wasm/dlmalloc.c
+@@ -30,13 +30,6 @@
+ // Align malloc regions to 16, to avoid unaligned SIMD accesses.
+ #define MALLOC_ALIGNMENT 16
+ 
+-// Declare errno values used by dlmalloc. We define them like this to avoid
+-// putting specific errno values in the ABI.
+-extern const int __ENOMEM;
+-#define ENOMEM __ENOMEM
+-extern const int __EINVAL;
+-#define EINVAL __EINVAL
+-
+ // Define USE_DL_PREFIX so that we leave dlmalloc's names prefixed with 'dl'.
+ // We define them as "static", and we wrap them with public names below. This
+ // serves two purposes:
+-- 
+2.39.3 (Apple Git-146)
+

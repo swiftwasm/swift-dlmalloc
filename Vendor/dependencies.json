@@ -1,0 +1,6 @@
+{
+  "wasi-libc": {
+    "repository": "https://github.com/WebAssembly/wasi-libc.git",
+    "revision": "wasi-sdk-22"
+  }
+}
