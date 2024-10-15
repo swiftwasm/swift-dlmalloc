@@ -1,0 +1,25 @@
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  smoke-test:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Swift toolchain
+        run: |
+          toolchain_path="/opt/swift"
+          mkdir -p "$toolchain_path"
+          curl -L "https://download.swift.org/development/ubuntu2204/swift-DEVELOPMENT-SNAPSHOT-2024-09-25-a/swift-DEVELOPMENT-SNAPSHOT-2024-09-25-a-ubuntu22.04.tar.gz" | tar xz --strip-component 1 -C "$toolchain_path"
+          echo "$toolchain_path/usr/bin" >> $GITHUB_PATH
+      - uses: bytecodealliance/actions/wasmtime/setup@v1
+      - name: Build
+        run: swift build --package-path Examples -c release --triple wasm32-unknown-none-wasm -debug-info-format=none
+      - name: Test
+        run: wasmtime run Examples/.build/release/Examples.wasm
+      - name: Update dlmalloc source
+        run: ./Vendor/checkout-dependency && ./Utilities/update-sources.py
+      - name: Check no uncommitted changes
+        run: git diff --exit-code
